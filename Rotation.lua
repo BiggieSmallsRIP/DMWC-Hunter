@@ -29,7 +29,7 @@ local function Locals()
  
  local function Auto()
  
-	if Target.Facing and not IsAutoRepeatSpell(Spell.AutoShot.SpellName) and (DMW.Time - ShotTime) > 0.5 and Target.Distance < 8 and Spell.AutoShot:Cast(Target) then
+	if  not IsAutoRepeatSpell(Spell.AutoShot.SpellName) and (DMW.Time - ShotTime) > 0.5 and Target.Distance > 8 and Spell.AutoShot:Cast(Target) then
 	StartAttack()
 	ShotTime = DMW.Time
 	return true
@@ -47,7 +47,7 @@ local function Utility()
 
 
 --Mend Pet
-	if Setting("Mend Pet") and Pet and not Pet.Dead and Pet.HP < Setting("Mend Pet") and ( Player.Combat and  Target.TTD > 2) and Spell.MendPet:Cast(Pet) then
+	if Setting("Mend Pet") and Pet and not Pet.Dead and Pet.HP < Setting("Mend Pet") and Player.Combat  and Spell.MendPet:Cast(Pet) then
         return true
     end
 	-- Revive Pet	find a way to check if we dont have active pet or dismissed it .
@@ -62,9 +62,9 @@ function Hunter.Rotation()
 		if Utility() then
 		return true 
 		end
-
+	
 	-- Aspect of the Cheetah
-	if  Player.CombatLeftTime > 5  and Player.Moving and not Buff.AspectOfTheCheetah:Exist(Player) and Spell.AspectOfTheCheetah:Cast(Player) then
+	if not Player.Combat and  Player.CombatLeftTime > 5  and Player.Moving and not Buff.AspectOfTheCheetah:Exist(Player) and Spell.AspectOfTheCheetah:Cast(Player) then
 		return true
 	end	
 	-- Pet management
@@ -77,19 +77,20 @@ function Hunter.Rotation()
         if Defensive() then
             return true
 		end
-	-- Aspect of the Hawk
-	if  not Buff.AspectOfTheHawk:Exist(Player) and Spell.AspectOfTheHawk:Cast(Player) then
-		return true
-	end	
+
 -- Hunter's Mark
         if not Debuff.HuntersMark:Exist(Target) and Spell.HuntersMark:Cast(Target) then
                 return true
             end
-       		
+   		
 -- Pet Auto		
         if Setting("Auto Pet Attack") and Pet and not Pet.Dead and not UnitIsUnit(Target.Pointer, "pettarget") then
             PetAttack()
         end
+ 	  	-- Aspect of the Hawk
+	if  not Buff.AspectOfTheHawk:Exist(Player) and Spell.AspectOfTheHawk:Cast(Player) then
+		return true
+	end	 		
 
 -- Serpent Sting
 		if Target.Facing and  Target.Distance > 8  and Target.TTD > 5 and not (Target.CreatureType == "Mechanical" or Target.CreatureType == "Elemental") and not Debuff.SerpentSting:Exist(Target) and Spell.SerpentSting:Cast(Target) then
@@ -104,10 +105,7 @@ function Hunter.Rotation()
 		if Target.Facing and  Target.Distance > 8 and Player.PowerPct > 40 and Target.TTD > 4 and Spell.ArcaneShot:Cast(Target) then
                 return true
             end
--- melee
-		if Target.Facing and  Target.ValidEnemy  then
-		StartAttack()
-		end		
+	
 --Raport Strike
 		if  Target.Facing and  Target.Distance < 5 and  Target.TTD > 2 and Spell.RaptorStrike:Cast(Target) then
 			return true	
@@ -120,11 +118,15 @@ function Hunter.Rotation()
 		if Target.Facing and  Target.Distance < 5  and Spell.MongooseBite:IsReady() and Spell.MongooseBite:Cast(Target) then
 			return true	
 		end	
+	-- melee
+		if Target.Distance < 7 and  Target.Facing  then
+		StartAttack()
+		end			
 -- Auto Shot		
-	if  Target.Facing and Target.ValidEnemy then 
+	if  Target.Facing  then 
 	Auto() 
 	return true
 	end		
-	
+
 	end
 end
