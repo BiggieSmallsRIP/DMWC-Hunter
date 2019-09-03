@@ -10,8 +10,8 @@ local function Locals()
     Buff = Player.Buffs
     Debuff = Player.Debuffs
     Health = Player.Health
-    HP = Player.HP
 	Pet = DMW.Player.Pet
+    HP = Player.HP
     Power = Player.PowerPct
     Spell = Player.Spells
     Talent = Player.Talents
@@ -29,7 +29,7 @@ local function Locals()
  
  local function Auto()
  
-	if Target.Facing and not IsAutoRepeatSpell(Spell.AutoShot.SpellName) and (DMW.Time - ShotTime) > 0.5 and Target.Distance > 8 and Spell.AutoShot:Cast(Target) then
+	if Target.Facing and not IsAutoRepeatSpell(Spell.AutoShot.SpellName) and (DMW.Time - ShotTime) > 0.5 and Target.Distance < 8 and Spell.AutoShot:Cast(Target) then
 	StartAttack()
 	ShotTime = DMW.Time
 	return true
@@ -47,10 +47,13 @@ local function Utility()
 
 
 --Mend Pet
-	if Setting("Mend Pet") and Pet and not Pet.Dead and Pet.HP < Setting("Mend Pet") and Target.TTD > 2 and Spell.MendPet:Cast(Pet) then
+	if Setting("Mend Pet") and Pet and not Pet.Dead and Pet.HP < Setting("Mend Pet") and ( Player.Combat and  Target.TTD > 2) and Spell.MendPet:Cast(Pet) then
         return true
     end
-
+	-- Revive Pet	find a way to check if we dont have active pet or dismissed it .
+	--if Setting("Revive Pet") and (Pet.Dead) and Spell.RevivePet:Cast(Player) then
+    --     return true 
+	--end
  end
 
 
@@ -68,10 +71,7 @@ function Hunter.Rotation()
 	if Setting("Call Pet") and (not Pet or Pet.Dead) and Spell.CallPet:Cast(Player) then
             return true 
 	end
-	-- Revive Pet	can't detect dead pet. something missing
-	--if Setting("Revive Pet") and (not Pet or Pet.Dead) and Spell.RevivePet:Cast(Player) then
-   --      return true 
-	--end
+
 
     if Target and Target.ValidEnemy and Target.Distance < 35 then
         if Defensive() then
@@ -105,7 +105,7 @@ function Hunter.Rotation()
                 return true
             end
 -- melee
-		if Target.Facing and  Target.ValidEnemy and Target.Distance < 5 then
+		if Target.Facing and  Target.ValidEnemy  then
 		StartAttack()
 		end		
 --Raport Strike
