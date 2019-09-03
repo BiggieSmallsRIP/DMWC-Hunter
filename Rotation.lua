@@ -91,11 +91,7 @@ function Hunter.Rotation()
 	if  not Buff.AspectOfTheHawk:Exist(Player) and Spell.AspectOfTheHawk:Cast(Player) then
 		return true
 	end	 		
-	-- melee
-		if  Target.Distance < 7 and  Target.Facing  then
-		StartAttack()
-		return true 
-		end	
+
 -- Serpent Sting
 		if Target.Facing and  Target.Distance > 8  and Target.TTD > 5 and not (Target.CreatureType == "Mechanical" or Target.CreatureType == "Elemental") and not Debuff.SerpentSting:Exist(Target) and Spell.SerpentSting:Cast(Target) then
                 return true
@@ -109,7 +105,10 @@ function Hunter.Rotation()
 		if Target.Facing and  Target.Distance > 8 and Player.PowerPct > 40 and Target.TTD > 4 and Spell.ArcaneShot:Cast(Target) then
                 return true
             end
-	
+	-- melee
+		if  Target.Distance < 6 and  Target.Facing  then
+		StartAttack()
+		end			
 --Raport Strike
 		if  Target.Facing and  Target.Distance < 5 and  Target.TTD > 2 and Spell.RaptorStrike:Cast(Target) then
 			return true	
@@ -122,12 +121,12 @@ function Hunter.Rotation()
 		if Target.Facing and  Target.Distance < 5  and Spell.MongooseBite:IsReady() and Spell.MongooseBite:Cast(Target) then
 			return true	
 		end	
-		
+
 -- Auto Shot		
 	if  Target.Facing  then 
 	Auto() 
 	return true
 	end		
-
+	
 	end
-end
+end	
