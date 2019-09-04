@@ -83,7 +83,7 @@ function Hunter.Rotation()
 		return true
 	end	 
 -- Hunter's Mark
-        if not Debuff.HuntersMark:Exist(Target) and Spell.HuntersMark:Cast(Target) and not (Target.CreatureType == "Totem")  then
+        if  Target.Distance > 8 and Target.TTD > 2 and not Debuff.HuntersMark:Exist(Target) and not (Target.CreatureType == "Totem")  and Spell.HuntersMark:Cast(Target) then
                 return true
             end
    		
