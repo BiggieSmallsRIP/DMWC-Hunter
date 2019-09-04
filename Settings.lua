@@ -26,5 +26,6 @@ function Hunter.Settings()
 	UI.AddToggle("Auto Pet Attack", "Auto cast pet attack on target", true)
 	UI.AddToggle("Call Pet", "Call active pet ", true)
 	--UI.AddToggle("Revive Pet", "Call active pet ", true)
-	UI.AddRange("Mend Pet", "Pet HP to cast Mend Pet", 0, 100, 20)
+	UI.AddToggle("Mend Pet", "Activate Mend Pet", false)
+	UI.AddRange	("Mend Pet HP", "Pet HP to cast Mend Pet", 0, 100, 20)
 end

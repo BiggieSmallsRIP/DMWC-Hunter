@@ -47,7 +47,7 @@ local function Utility()
 
 
 --Mend Pet
-	if Setting("Mend Pet") and Player.Combat and Pet and not Pet.Dead and Pet.HP < Setting("Mend Pet") and Player.PowerPct > 20 and Spell.MendPet:Cast(Pet) then
+	if Setting("Mend Pet") and Player.Combat and Pet and not Pet.Dead and Pet.HP < Setting("Mend Pet HP") and Player.PowerPct > 20 and Spell.MendPet:Cast(Pet) then
         return true
     end
 	-- Revive Pet	find a way to check if we dont have active pet or dismissed it .
