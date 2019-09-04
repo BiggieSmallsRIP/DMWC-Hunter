@@ -47,13 +47,17 @@ local function Utility()
 
 
 --Mend Pet
-	if Setting("Mend Pet") and Pet and not Pet.Dead and Pet.HP < Setting("Mend Pet") and Player.Combat  and Spell.MendPet:Cast(Pet) then
+	if Setting("Mend Pet") and Player.Combat and Pet and not Pet.Dead and Pet.HP < Setting("Mend Pet") and Player.PowerPct > 20 and Spell.MendPet:Cast(Pet) then
         return true
     end
 	-- Revive Pet	find a way to check if we dont have active pet or dismissed it .
 	--if Setting("Revive Pet") and (Pet.Dead) and Spell.RevivePet:Cast(Player) then
     --     return true 
 	--end
+			-- Aspect of the Cheetah
+	if  not Player.Combat and Player.CombatLeftTime > 5 and not Spell.AspectOfTheHawk:LastCast() and Player.Moving and not Buff.AspectOfTheCheetah:Exist(Player) and Spell.AspectOfTheCheetah:Cast(Player) then
+		return true
+	end	
  end
 
 
@@ -63,10 +67,7 @@ function Hunter.Rotation()
 		return true 
 		end
 	
-	-- Aspect of the Cheetah
-	if  Player.CombatLeftTime > 5  and Player.Moving and not Buff.AspectOfTheCheetah:Exist(Player) and Spell.AspectOfTheCheetah:Cast(Player) then
-		return true
-	end	
+
 	-- Pet management
 	if Setting("Call Pet") and (not Pet or Pet.Dead) and Spell.CallPet:Cast(Player) then
             return true 
@@ -77,7 +78,10 @@ function Hunter.Rotation()
         if Defensive() then
             return true
 		end
-
+ -- Aspect of the Hawk
+	if  not Buff.AspectOfTheHawk:Exist(Player) and Spell.AspectOfTheHawk:Cast(Player) then
+		return true
+	end	 
 -- Hunter's Mark
         if not Debuff.HuntersMark:Exist(Target) and Spell.HuntersMark:Cast(Target) and not (Target.CreatureType == "Totem")  then
                 return true
@@ -87,10 +91,11 @@ function Hunter.Rotation()
         if Setting("Auto Pet Attack") and Pet and not Pet.Dead and not UnitIsUnit(Target.Pointer, "pettarget") then
             PetAttack()
         end
- 	  	-- Aspect of the Hawk
-	if  not Buff.AspectOfTheHawk:Exist(Player) and Spell.AspectOfTheHawk:Cast(Player) then
-		return true
-	end	 		
+-- Auto Shot		
+	if  Target.Facing  then 
+	Auto() 
+--	return true
+	end			
 
 -- Serpent Sting
 		if Target.Facing and  Target.Distance > 8  and Target.TTD > 5 and not (Target.CreatureType == "Mechanical" or Target.CreatureType == "Elemental" or CreatureType == "Totem") and not Debuff.SerpentSting:Exist(Target) and Spell.SerpentSting:Cast(Target) then
@@ -122,11 +127,7 @@ function Hunter.Rotation()
 			return true	
 		end	
 
--- Auto Shot		
-	if  Target.Facing  then 
-	Auto() 
-	return true
-	end		
+	
 	
 	end
 end	
