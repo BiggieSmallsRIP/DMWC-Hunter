@@ -79,7 +79,7 @@ function Hunter.Rotation()
 		end
 
 -- Hunter's Mark
-        if not Debuff.HuntersMark:Exist(Target) and Spell.HuntersMark:Cast(Target) then
+        if not Debuff.HuntersMark:Exist(Target) and Spell.HuntersMark:Cast(Target) and not (Target.CreatureType == "Totem")  then
                 return true
             end
    		
@@ -93,7 +93,7 @@ function Hunter.Rotation()
 	end	 		
 
 -- Serpent Sting
-		if Target.Facing and  Target.Distance > 8  and Target.TTD > 5 and not (Target.CreatureType == "Mechanical" or Target.CreatureType == "Elemental") and not Debuff.SerpentSting:Exist(Target) and Spell.SerpentSting:Cast(Target) then
+		if Target.Facing and  Target.Distance > 8  and Target.TTD > 5 and not (Target.CreatureType == "Mechanical" or Target.CreatureType == "Elemental" or CreatureType == "Totem") and not Debuff.SerpentSting:Exist(Target) and Spell.SerpentSting:Cast(Target) then
                 return true
             end
 
@@ -102,7 +102,7 @@ function Hunter.Rotation()
 		return true
 		end	
 --Arcane Shot	
-		if Target.Facing and  Target.Distance > 8 and Player.PowerPct > 40 and Target.TTD > 4 and Spell.ArcaneShot:Cast(Target) then
+		if Target.Facing and  Target.Distance > 8 and Player.PowerPct > 40 and Target.TTD > 4  and not (Target.CreatureType == "Totem") and Spell.ArcaneShot:Cast(Target) then
                 return true
             end
 	-- melee
@@ -114,7 +114,7 @@ function Hunter.Rotation()
 			return true	
 		end
 -- Wing Clip
-		if  Target.Facing and  Target.Distance < 5 and not Debuff.WingClip:Exist(Target) and Spell.WingClip:Cast(Target) then
+		if  Target.Facing and  Target.Distance < 5 and not Debuff.WingClip:Exist(Target) and not (Target.CreatureType == "Totem") and Spell.WingClip:Cast(Target) then
 			return true	
 		end	
 --MongooseBite		
