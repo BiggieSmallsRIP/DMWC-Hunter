@@ -45,21 +45,21 @@ end
 
 local function Utility()
 
-	-- Pet management
+-- Pet management
 	if Setting("Call Pet") and (not Pet or Pet.Dead) and Spell.CallPet:Cast(Player) then
             return true 
 	end
 
 --Mend Pet
-	if Setting("Mend Pet") and Player.Combat and not Player.Moving and Pet and not Pet.Dead and Pet.HP < Setting("Mend Pet HP") and Player.PowerPct > 20 and Spell.MendPet:Cast(Pet) then
+	if Setting("Mend Pet") and Player.Combat and not Player.Moving and Pet and not Pet.Dead and Pet.HP < Setting("Mend Pet HP") and Player.PowerPct > 30 and Spell.MendPet:Cast(Pet) then
         return true
     end
 	-- Revive Pet	find a way to check if we dont have active pet or dismissed it .
 	--if Setting("Revive Pet") and (Pet.Dead) and Spell.RevivePet:Cast(Player) then
     --     return true 
 	--end
-			-- Aspect of the Cheetah
-	if Setting("Aspect Of The Cheetah") and not Player.Combat and Player.CombatLeftTime > 5 and not Spell.AspectOfTheHawk:LastCast() and Player.Moving and not Buff.AspectOfTheCheetah:Exist(Player) and Spell.AspectOfTheCheetah:Cast(Player) then
+-- Aspect of the Cheetah
+	if Setting("Aspect Of The Cheetah") and not Player.Combat and Player.CombatLeftTime > 8 and not Spell.AspectOfTheHawk:LastCast() and Player.Moving and not Buff.AspectOfTheCheetah:Exist(Player) and Spell.AspectOfTheCheetah:Cast(Player) then
 		return true
 	end	
  end
@@ -67,23 +67,21 @@ local function Utility()
 
 function Hunter.Rotation()
     Locals()
-
 	if Utility() then
 		return true 
 	end
-
     if Target and Target.ValidEnemy and Target.Distance < 35 then
---defensives in combat	
-		if Defensive() then
+	if Defensive() then
         return true
 	end
 
  -- Aspect of the Hawk
-	if Target.Distance > 8 and (not Buff.AspectOfTheHawk:Exist(Player) or Buff.AspectOfTheMonkey:Exist(Player)) and Player.PowerPct > 20 and Spell.AspectOfTheHawk:Cast(Player) then
-		return true
-	end	 
+		if Setting("Aspect of the Hawk") and Target.Facing and Target.Distance > 8 and (not Buff.AspectOfTheHawk:Exist(Player) or Buff.AspectOfTheMonkey:Exist(Player)) and Player.PowerPct > 30 and Spell.AspectOfTheHawk:Cast(Player) then
+			return true
+		end	 
+	
 -- Hunter's Mark
-        if  Target.Distance > 8 and Target.TTD > 2 and not Debuff.HuntersMark:Exist(Target) and not (Target.CreatureType == "Totem")  and Spell.HuntersMark:Cast(Target) then
+        if Target.Facing and Target.Distance > 8 and Target.TTD > 2 and not Debuff.HuntersMark:Exist(Target) and not (Target.CreatureType == "Totem")  and Spell.HuntersMark:Cast(Target) then
                 return true
             end
    		
@@ -91,11 +89,12 @@ function Hunter.Rotation()
         if Setting("Auto Pet Attack") and Pet and not Pet.Dead and not UnitIsUnit(Target.Pointer, "pettarget") then
             PetAttack()
         end
+		
 -- Auto Shot		
-	if  Target.Facing  then 
-	Auto() 
+		if  Target.Facing  then 
+			Auto() 
 --	return true
-	end			
+		end			
 
 -- Serpent Sting
 		if Target.Facing and  Target.Distance > 8  and Target.TTD > 5 and not (Target.CreatureType == "Mechanical" or Target.CreatureType == "Elemental" or CreatureType == "Totem") and not Debuff.SerpentSting:Exist(Target) and Spell.SerpentSting:Cast(Target) then
@@ -110,7 +109,7 @@ function Hunter.Rotation()
 		if Target.Facing and  Target.Distance > 8 and Player.PowerPct > 40 and Target.TTD > 4  and not (Target.CreatureType == "Totem") and Spell.ArcaneShot:Cast(Target) then
                 return true
             end
-	-- melee
+-- melee
 		if  Target.Distance < 6 and  Target.Facing  then
 		StartAttack()
 		end			

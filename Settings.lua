@@ -26,7 +26,7 @@ function Hunter.Settings()
 	
 	
 	UI.AddHeader("Utility")
-
+	UI.AddToggle("Aspect of the Hawk", "Will use AotH in combat", true)
 	UI.AddToggle("Aspect Of The Cheetah", "Use Aspect of the Cheetah", true)
 	UI.AddHeader("Pet Stuff")
 	UI.AddToggle("Auto Pet Attack", "Auto cast pet attack on target", true)
