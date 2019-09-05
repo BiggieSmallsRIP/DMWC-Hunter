@@ -38,13 +38,17 @@ local function Locals()
 
 local function Defensive()
  --Aspect of the Monkey
-	 if  Setting ("Aspect Of The Monkey") and  Target.Player and Player.Combat  and Player.HP < Setting("Aspect of the Monkey HP") and Player.PowerPct > 20  and Target.Distance < 5 and not Buff.AspectOfTheMonkey:Exist(Player)  and Spell.AspectOfTheMonkey:Cast(Player) then
+	 if  Setting ("Aspect Of The Monkey") and Player.Combat  and Player.HP < Setting("Aspect of the Monkey HP") and Player.PowerPct > 20  and Target.Distance < 5 and not Buff.AspectOfTheMonkey:Exist(Player)  and Spell.AspectOfTheMonkey:Cast(Player) then
 		return true 
 	end
 end
 
 local function Utility()
 
+	-- Pet management
+	if Setting("Call Pet") and (not Pet or Pet.Dead) and Spell.CallPet:Cast(Player) then
+            return true 
+	end
 
 --Mend Pet
 	if Setting("Mend Pet") and Player.Combat and not Player.Moving and Pet and not Pet.Dead and Pet.HP < Setting("Mend Pet HP") and Player.PowerPct > 20 and Spell.MendPet:Cast(Pet) then
@@ -63,23 +67,19 @@ local function Utility()
 
 function Hunter.Rotation()
     Locals()
-		if Utility() then
-		return true 
-		end
-	
 
-	-- Pet management
-	if Setting("Call Pet") and (not Pet or Pet.Dead) and Spell.CallPet:Cast(Player) then
-            return true 
+	if Utility() then
+		return true 
 	end
 
-
     if Target and Target.ValidEnemy and Target.Distance < 35 then
-        if Defensive() then
-            return true
-		end
+--defensives in combat	
+		if Defensive() then
+        return true
+	end
+
  -- Aspect of the Hawk
-	if  not Buff.AspectOfTheHawk:Exist(Player) and Spell.AspectOfTheHawk:Cast(Player) then
+	if Target.Distance > 8 and (not Buff.AspectOfTheHawk:Exist(Player) or Buff.AspectOfTheMonkey:Exist(Player)) and Spell.AspectOfTheHawk:Cast(Player) then
 		return true
 	end	 
 -- Hunter's Mark

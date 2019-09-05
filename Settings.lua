@@ -22,7 +22,7 @@ function Hunter.Settings()
 	UI.AddHeader("Defensive")
 	
 	UI.AddToggle("Aspect Of The Monkey", "Use Aspect of the Monkey", true)
-	UI.AddRange	(" Aspect of the Monkey HP", "HP to cast AotM", 0, 100, 75)
+	UI.AddRange	("Aspect of the Monkey HP", "HP to cast AotM", 0, 100, 1, 75)
 	
 	
 	UI.AddHeader("Utility")
@@ -34,5 +34,5 @@ function Hunter.Settings()
 
 	--UI.AddToggle("Revive Pet", "Call active pet ", true)
 	UI.AddToggle("Mend Pet", "Activate Mend Pet", false)
-	UI.AddRange	("Mend Pet HP", "Pet HP to cast Mend Pet", 0, 100, 35)
+	UI.AddRange	("Mend Pet HP", "Pet HP to cast Mend Pet", 0, 100, 1, 35)
 end
