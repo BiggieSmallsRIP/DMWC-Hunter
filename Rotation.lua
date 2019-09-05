@@ -79,7 +79,7 @@ function Hunter.Rotation()
 	end
 
  -- Aspect of the Hawk
-	if Target.Distance > 8 and (not Buff.AspectOfTheHawk:Exist(Player) or Buff.AspectOfTheMonkey:Exist(Player)) and Spell.AspectOfTheHawk:Cast(Player) then
+	if Target.Distance > 8 and (not Buff.AspectOfTheHawk:Exist(Player) or Buff.AspectOfTheMonkey:Exist(Player)) and Player.PowerPct > 20 and Spell.AspectOfTheHawk:Cast(Player) then
 		return true
 	end	 
 -- Hunter's Mark
