@@ -19,13 +19,20 @@ function Hunter.Settings()
  --   UI.AddHeader("DPS")
 
 
- --   UI.AddHeader("Defensive")
+	UI.AddHeader("Defensive")
+	
+	UI.AddToggle("Aspect Of The Monkey", "Use Aspect of the Monkey", true)
+	UI.AddRange	(" Aspect of the Monkey HP", "HP to cast AotM", 0, 100, 75)
+	
+	
+	UI.AddHeader("Utility")
 
---    UI.AddHeader("Utility")
+	UI.AddToggle("Aspect Of The Cheetah", "Use Aspect of the Cheetah", true)
 	UI.AddHeader("Pet Stuff")
 	UI.AddToggle("Auto Pet Attack", "Auto cast pet attack on target", true)
 	UI.AddToggle("Call Pet", "Call active pet ", true)
+
 	--UI.AddToggle("Revive Pet", "Call active pet ", true)
 	UI.AddToggle("Mend Pet", "Activate Mend Pet", false)
-	UI.AddRange	("Mend Pet HP", "Pet HP to cast Mend Pet", 0, 100, 20)
+	UI.AddRange	("Mend Pet HP", "Pet HP to cast Mend Pet", 0, 100, 35)
 end

@@ -38,7 +38,7 @@ local function Locals()
 
 local function Defensive()
  --Aspect of the Monkey
-	 if Target.Player and Player.Combat  and Player.HP < 80 and Player.PowerPct > 20  and Target.Distance < 5 and not Buff.AspectOfTheMonkey:Exist(Player)  and Spell.AspectOfTheMonkey:Cast(Player) then
+	 if  Setting ("Aspect Of The Monkey") and  Target.Player and Player.Combat  and Player.HP < Setting("Aspect of the Monkey HP") and Player.PowerPct > 20  and Target.Distance < 5 and not Buff.AspectOfTheMonkey:Exist(Player)  and Spell.AspectOfTheMonkey:Cast(Player) then
 		return true 
 	end
 end
@@ -55,7 +55,7 @@ local function Utility()
     --     return true 
 	--end
 			-- Aspect of the Cheetah
-	if  not Player.Combat and Player.CombatLeftTime > 5 and not Spell.AspectOfTheHawk:LastCast() and Player.Moving and not Buff.AspectOfTheCheetah:Exist(Player) and Spell.AspectOfTheCheetah:Cast(Player) then
+	if Setting("Aspect Of The Cheetah") and not Player.Combat and Player.CombatLeftTime > 5 and not Spell.AspectOfTheHawk:LastCast() and Player.Moving and not Buff.AspectOfTheCheetah:Exist(Player) and Spell.AspectOfTheCheetah:Cast(Player) then
 		return true
 	end	
  end
@@ -122,7 +122,7 @@ function Hunter.Rotation()
 		if  Target.Facing and  Target.Distance < 5 and not Debuff.WingClip:Exist(Target) and not (Target.CreatureType == "Totem") and Spell.WingClip:Cast(Target) then
 			return true	
 		end	
---MongooseBite		
+--Mongoose Bite		
 		if Target.Facing and  Target.Distance < 5  and Spell.MongooseBite:IsReady() and Spell.MongooseBite:Cast(Target) then
 			return true	
 		end	
