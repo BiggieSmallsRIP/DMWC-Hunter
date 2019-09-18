@@ -2,14 +2,14 @@ local DMW = DMW
 local Hunter = DMW.Rotations.HUNTER
 local Rotation = DMW.Helpers.Rotation
 local Setting = DMW.Helpers.Rotation.Setting
-local Player, Pet, Buff, Debuff, Spell, Target, Talent, Item, GCD, CDs, HUD, Enemy20Y, Enemy20YC, Enemy30Y, Enemy30YC
+local Player, Pet, Buff, Debuff, Spell, Target, Talent, Item, GCD, Health, CDs, HUD, Enemy20Y, Enemy20YC, Enemy30Y, Enemy30YC
 local ShotTime = GetTime()
 
 local function Locals()
     Player = DMW.Player
     Buff = Player.Buffs
     Debuff = Player.Debuffs
-    Health = Player.Health
+	Health = Player.Health
 	Pet = DMW.Player.Pet
     HP = Player.HP
     Power = Player.PowerPct
